@@ -1,27 +1,39 @@
-#include "mlx.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <MLX42/MLX42.h>
 
-int main(void)
-{
-    void    *mlx_ptr;
-    void    *win_ptr;
+#define WIDTH 600
+#define HEIGHT 600
 
-    // 1. Initialize the connection to the graphical system
-    mlx_ptr = mlx_init();
-    if (mlx_ptr == NULL)
-        return (1);
+int main(void) {
+    	
+	mlx_t *mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
+	if (!mlx) {
+		
+		printf("error\n");
+		fprintf(stderr, "%s", mlx_strerror(mlx_errno));
+    		return EXIT_FAILURE;
+	}
 
-    // 2. Create the window (width, height, title)
-    win_ptr = mlx_new_window(mlx_ptr, 640, 480, "FdF Project");
-    if (win_ptr == NULL) {
-        free(mlx_ptr); // Standard cleanup if window fails
-        return (1);
-    }
+	mlx_image_t *img = mlx_new_image(mlx, WIDTH, HEIGHT);
 
-    // 3. Start the event loop (keeps window open and listening for input)
-    mlx_loop(mlx_ptr);
+	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0)) {
+		mlx_close_window(mlx);
+		fprintf(stderr, "%s", mlx_strerror(mlx_errno));
+		return EXIT_FAILURE;
+	}
 
-    return (0);
+	int i;
+
+	i = 0;
+	while (i < 15) {
+		mlx_put_pixel(img, i, 5, 0xFF0000FF);
+		i++;
+	}
+
+	mlx_loop(mlx);
+
+	return (0);
 }
 
