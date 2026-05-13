@@ -1,5 +1,5 @@
 NAME = fdf
-OBJ = main.o 
+OBJ = main.o put_line.o 
 INC = -I inc
 CFLAGS = -Wall -Wextra -Werror 
 LIBFT = libft/libft.a
