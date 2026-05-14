@@ -1,37 +1,42 @@
 #include "fdf.h"
 
-void  isometric(t_points *points, int i) {
-	int tmp;
+void	isometric(t_points *points, int i)
+{
+	int	tmp;
 
 	tmp = points->x[i];
 	points->x[i] = (tmp - points->y[i]) * cos(0.523599);
 	points->y[i] = (tmp + points->y[i]) * sin(0.523599) - points->z[i];
 }
 
-void apply_zoom(t_points *points, int i, int zoom) {
+void	apply_zoom(t_points *points, int i, int zoom)
+{
 	points->x[i] = points->x[i] * zoom;
 	points->y[i] = points->y[i] * zoom;
 }
 
-void center_point(t_points *points, int i) {
+void	center_point(t_points *points, int i)
+{
 	points->x[i] = points->x[i] + (WIDTH / 2);
 	points->y[i] = points->y[i] + (HEIGHT / 2);
 }
 
-void	convert_point(t_points *points, int i, int zoom) {
+void	convert_point(t_points *points, int i, int zoom)
+{
 	isometric(points, i);
 	apply_zoom(points, i, zoom);
 	center_point(points, i);
 }
 
-int main(int argc, char **argv) {
-	char *str;
-	int fd;
-	int rd;
+int	main(int argc, char **argv)
+{
+	char	*str;
+	int	fd;
+	int	rd;
 
 	if (argc > 2)
-		printf("too many args\n");   
-	if (argc == 1) {
+		printf("too many args\n");
+	if (argc == 1)	{
 		printf("no maps passed\n");
 	} else {	
 		str = (char *)malloc(sizeof(char) * BUFFER_SIZE);
