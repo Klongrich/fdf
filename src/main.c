@@ -32,11 +32,15 @@ int	main(int argc, char **argv)
 {
 	char	*str;
 	int	fd;
-	int	rd;
+	int	i;
+	int	y;
+	t_points	points;
 
+	i = 0;
+	y = 0;
 	if (argc > 2)
 		printf("too many args\n");
-	if (argc == 1)	{
+	if (argc == 1) {
 		printf("no maps passed\n");
 	} else {	
 		str = (char *)malloc(sizeof(char) * BUFFER_SIZE);
@@ -45,24 +49,20 @@ int	main(int argc, char **argv)
 		if (fd == -1) {
 			printf("error opening file\n");
 			free(str);
-		}
-		else {	
-			rd = read(fd, str, BUFFER_SIZE);
-			if (rd < 0 ) {
-				printf("error reading file\n");
-				free(str);
-				close(fd);
-			} else 
+		} else {
+			while(get_next_line(fd, &str)) {
 				printf("%s\n", str);
+				printf("%d\n", y);
+				y++;
+			}
+			free(str);
 		}
-	}
 
 	
 	
 	mlx_t *mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
 
-	if (!mlx) {
-		
+	if (!mlx) {		
 		printf("error\n");
 		fprintf(stderr, "%s", mlx_strerror(mlx_errno));
     		return EXIT_FAILURE;
@@ -76,21 +76,11 @@ int	main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	int i;
-
-	i = 0;
 	while (i < 15) {
 		mlx_put_pixel(img, i, 5, 0xFF0000FF);
 		i++;
 	}
 
-	t_points points;
-//	int number_of_points;
-
-	i = 0;
-//	number_of_points = 3;
-
-//	Hardcoded points	
 	points.x[0] = 10;
 	points.y[0] = 15;
 	points.z[0] = 0;
@@ -110,7 +100,7 @@ int	main(int argc, char **argv)
 	put_line(points, img, 0);	
 	put_line(points, img, 1);
 	mlx_loop(mlx);
-
+	}
 	return (0);
 }
 

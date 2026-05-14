@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <fcntl.h> 
 #include <math.h>
+#include "get_next_line.h"
 #include <MLX42/MLX42.h>
 
 #define WIDTH 600
