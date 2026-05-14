@@ -28,9 +28,23 @@ void	convert_point(t_points *points, int i, int zoom)
 	center_point(points, i);
 }
 
+int	list_len(char **list) 
+{
+	int i;
+
+	i = 0;
+	while (list[i])
+		i++;
+	return (i);
+}
+
+
+
+
 int	main(int argc, char **argv)
 {
 	char	*str;
+	char	**temp;
 	int	fd;
 	int	i;
 	int	y;
@@ -51,8 +65,10 @@ int	main(int argc, char **argv)
 			free(str);
 		} else {
 			while(get_next_line(fd, &str)) {
+				temp = ft_strsplit(str, ' ');
 				printf("%s\n", str);
-				printf("%d\n", y);
+				printf("y-index:%d\n", y);
+				printf("str_len: %d\n", list_len(temp));
 				y++;
 			}
 			free(str);
