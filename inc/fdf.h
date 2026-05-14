@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <fcntl.h> 
 #include <math.h>
 #include <MLX42/MLX42.h>
 
 #define WIDTH 600
 #define HEIGHT 600
+#define BUFFER_SIZE 1000
 
 typedef struct points {
 	int	x[50];

@@ -24,9 +24,38 @@ void	convert_point(t_points *points, int i, int zoom) {
 	center_point(points, i);
 }
 
-int main(void) {
-    	
+int main(int argc, char **argv) {
+	char *str;
+	int fd;
+	int rd;
+
+	if (argc > 2)
+		printf("too many args\n");   
+	if (argc == 1) {
+		printf("no maps passed\n");
+	} else {	
+		str = (char *)malloc(sizeof(char) * BUFFER_SIZE);
+
+		fd = open(argv[1], O_RDONLY, S_IRUSR);
+		if (fd == -1) {
+			printf("error opening file\n");
+			free(str);
+		}
+		else {	
+			rd = read(fd, str, BUFFER_SIZE);
+			if (rd < 0 ) {
+				printf("error reading file\n");
+				free(str);
+				close(fd);
+			} else 
+				printf("%s\n", str);
+		}
+	}
+
+	
+	
 	mlx_t *mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
+
 	if (!mlx) {
 		
 		printf("error\n");
