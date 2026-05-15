@@ -167,16 +167,37 @@ int	main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	apply_zoom(&points, 0, WIDTH / row_len, HEIGHT / col_len); 
-	apply_zoom(&points, 1, WIDTH / row_len, HEIGHT / col_len);	
-	apply_zoom(&points, 2, WIDTH / row_len, HEIGHT / col_len);
+	i = 0;
+	while (i < 190)
+	{
+		apply_zoom(&points, i, WIDTH / row_len, HEIGHT / col_len); 
+		i++;
+	}
 	
-	isometric(&points, 0);
-	isometric(&points, 1);
-	isometric(&points, 2);
+	i = 0;
+	while (i < 190)
+	{
+		isometric(&points, i);
+		i++;
+	}
 
-	put_line(points, img, 0);	
-	put_line(points, img, 1);
+
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (y < col_len)
+	{
+		x = 0;
+		while (x < row_len)
+		{
+			
+			put_line(points, img, x, y);
+			x++;
+		}
+		y++;
+	}
 	mlx_loop(mlx);
 	}
 	return (0);
