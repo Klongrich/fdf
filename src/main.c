@@ -5,8 +5,8 @@ void	isometric(t_points *points, int i)
 	int	tmp;
 
 	tmp = points->x[i];
-	points->x[i] = (tmp - points->y[i]) * cos(0.523599);
-	points->y[i] = (tmp + points->y[i]) * sin(0.523599) - points->z[i];
+	points->x[i] = (points->x[i] - points->y[i]) * cos(0.523599);
+	points->y[i] = (points->x[i] + points->y[i]) * sin(0.523599) - points->z[i];
 }
 
 void	apply_zoom(t_points *points, int i, int x_zoom, int y_zoom)
@@ -181,13 +181,6 @@ int	main(int argc, char **argv)
 		i++;
 	}
 
-
-	int x;
-	int y;
-
-	x = 0;
-	y = 0;
-
 	/*
 		Horizontal
 		(10, 0) -> (12, 0)
@@ -219,10 +212,37 @@ int	main(int argc, char **argv)
 	*/
 //	 put_line(t_points points, mlx_image_t *img, int x1, int y1, int x2, int y2);
 	
-	//Vertical
-	put_line(points, img, 0, 0, 0, 1);
-	put_line(points, img, 0, 1, 0, 2);
-	put_line(points, img, 0, 2, 0, 3);
+	int	x;
+	int y;
+
+	y = 0;
+	x = 0;
+	i = 0;
+
+	while (x < row_len)
+	{
+		y = 0;
+		while (y < col_len)
+		{
+			put_line(points, img, x, y, x, y + 1);
+			y++;
+		}
+		x++;
+	}
+
+	x = 0;
+	y = 0;
+	while (y < col_len)
+	{
+		x = 0;
+		while (x < row_len)
+		{
+			put_line(points, img, x, y, x + 1, y);
+			x++;
+		}
+		y++;
+	}
+
 
 	//Horzinal
 	put_line(points, img, 0, 0, 1, 0);
