@@ -104,6 +104,7 @@ int	main(int argc, char **argv)
 	int	fd;
 	int	i;
 	int	y;
+	int rd;
 	int row_len;
 	t_points	points;
 
@@ -123,6 +124,30 @@ int	main(int argc, char **argv)
 			free(str);
 		} else {
 			init_points(&points);
+			rd = read(fd, str, BUFFER_SIZE);
+			if (rd < 0)
+			{
+				printf("error reading\n");
+				free(str);
+				return(0);
+			} 
+			else
+			{	
+				printf("%s\n", str);
+				temp = ft_strsplit(str, '\n');
+				int j;
+				char **temp2;
+
+				j = 0;
+				while (j < list_len(temp)) {
+					printf("%s\n\n", temp[j]);
+					temp2 = ft_strsplit(temp[j], ' ' );
+					set_points(temp2, j, &points);
+					j++;
+				}
+				print_points(points);
+			}
+			/*
 			while(get_next_line(fd, &str)) {
 				temp = ft_strsplit(str, ' ');
 				if (y == 0)
@@ -138,6 +163,7 @@ int	main(int argc, char **argv)
 				y++;
 			}
 			print_points(points);
+			*/
 			free(str);
 		}
 
