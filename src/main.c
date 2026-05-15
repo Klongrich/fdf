@@ -9,10 +9,10 @@ void	isometric(t_points *points, int i)
 	points->y[i] = (tmp + points->y[i]) * sin(0.523599) - points->z[i];
 }
 
-void	apply_zoom(t_points *points, int i, int zoom)
+void	apply_zoom(t_points *points, int i, int x_zoom, int y_zoom)
 {
-	points->x[i] = points->x[i] * zoom;
-	points->y[i] = points->y[i] * zoom;
+	points->x[i] = points->x[i] * x_zoom;
+	points->y[i] = points->y[i] * y_zoom;
 }
 
 void	center_point(t_points *points, int i)
@@ -24,7 +24,7 @@ void	center_point(t_points *points, int i)
 void	convert_point(t_points *points, int i, int zoom)
 {
 	isometric(points, i);
-	apply_zoom(points, i, zoom);
+//	apply_zoom(points, i, zoom);
 	center_point(points, i);
 }
 
@@ -38,18 +38,6 @@ int	list_len(char **list)
 	return (i);
 }
 
-//Make sure they are numbers.
-//Split by spaces.
-//Even number of values in rows && columns (has to make a rectangle or square) 
-
-
-
-//(x, y)
-//x = WIDTH / ROW_SIZE
-//y = HEIGHT / COLUMN_SIZE
-//
-
-
 void	set_points(char **str, int y, t_points *points)
 {
 	int	i;
@@ -57,13 +45,11 @@ void	set_points(char **str, int y, t_points *points)
 
 	i = 0;
 	index = y * 19;
-	printf("index: %d\n", index);
 	while (str[i]) 
 	{
-		printf("index: %d - i: %d - y: %d\n", index, i, y);
 		points->x[index + i] = i;
 		points->y[index + i] = y;
-		points->z[index] = ft_atoi(str[i]);
+		points->z[index + i] = ft_atoi(str[i]);
 		i++;
 	}
 	printf("Done\n");
@@ -106,11 +92,13 @@ int	main(int argc, char **argv)
 	int	y;
 	int rd;
 	int row_len;
+	int	col_len;
 	t_points	points;
 
 	i = 0;
 	y = 0;
 	row_len = 0;
+	col_len = 0;
 	if (argc > 2)
 		printf("too many args\n");
 	if (argc == 1) {
@@ -141,29 +129,24 @@ int	main(int argc, char **argv)
 				j = 0;
 				while (j < list_len(temp)) {
 					printf("%s\n\n", temp[j]);
+					if (j == 0)
+						row_len = list_len(temp);
+					if (row_len != list_len(temp))
+					{
+						printf("malformed data\n");
+						free(str);
+						free(temp);
+						return (0);
+					}
 					temp2 = ft_strsplit(temp[j], ' ' );
 					set_points(temp2, j, &points);
+					free(temp2);
 					j++;
 				}
+				col_len = j;
+				free(temp);
 				print_points(points);
 			}
-			/*
-			while(get_next_line(fd, &str)) {
-				temp = ft_strsplit(str, ' ');
-				if (y == 0)
-					row_len = list_len(temp);
-				if (row_len != list_len(temp))
-				{
-					printf("rows malformed\n");
-					free(str);
-					return (0);
-		
-				}
-				set_points(temp,  y, &points);
-				y++;
-			}
-			print_points(points);
-			*/
 			free(str);
 		}
 
@@ -184,32 +167,16 @@ int	main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	while (i < 15) {
-		mlx_put_pixel(img, i, 5, 0xFF0000FF);
-		i++;
-	}
-
-
-	/*
-	points.x[0] = 10;
-	points.y[0] = 15;
-	points.z[0] = 0;
-
-	points.x[1] = 120;
-	points.y[1] = 130;
-	points.z[1] = 5;
-
-	points.x[2] = 200;
-	points.y[2] = 115;
-	points.z[2] = 0;
-
-	convert_point(&points, 0, 1);
-	convert_point(&points, 1, 1);
-	convert_point(&points, 2, 1);
+	apply_zoom(&points, 0, WIDTH / row_len, HEIGHT / col_len); 
+	apply_zoom(&points, 1, WIDTH / row_len, HEIGHT / col_len);	
+	apply_zoom(&points, 2, WIDTH / row_len, HEIGHT / col_len);
+	
+	isometric(&points, 0);
+	isometric(&points, 1);
+	isometric(&points, 2);
 
 	put_line(points, img, 0);	
 	put_line(points, img, 1);
-		*/
 	mlx_loop(mlx);
 	}
 	return (0);
