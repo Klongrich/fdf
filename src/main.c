@@ -187,6 +187,24 @@ int	main(int argc, char **argv)
 
 	x = 0;
 	y = 0;
+
+	/*
+		Horizontal
+		(10, 0) -> (12, 0)
+		(x, y) -> (x + 1, y) -> (x + 2, y) ....
+		(x, y + 1) -> (x + 1, y + 1) -> (x + 2, y + 1) ...
+
+		Vertical
+		(0, 10) -> (0, 15)
+		(x, y) - (x, y + 1) -> (x, y + 2) ...
+		(x + 1, y) -  (x + 1, y + 1) - > (x + 1, y + 2) ... 
+
+		to_draw
+		(x1, y1) (x2, y2) 
+
+
+	*/
+	/*
 	while (y < col_len)
 	{
 		x = 0;
@@ -198,6 +216,18 @@ int	main(int argc, char **argv)
 		}
 		y++;
 	}
+	*/
+//	 put_line(t_points points, mlx_image_t *img, int x1, int y1, int x2, int y2);
+	
+	//Vertical
+	put_line(points, img, 0, 0, 0, 1);
+	put_line(points, img, 0, 1, 0, 2);
+	put_line(points, img, 0, 2, 0, 3);
+
+	//Horzinal
+	put_line(points, img, 0, 0, 1, 0);
+	put_line(points, img, 1, 0, 2, 0);
+	put_line(points, img, 2, 0, 3, 0);
 	mlx_loop(mlx);
 	}
 	return (0);
