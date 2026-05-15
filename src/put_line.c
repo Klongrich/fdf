@@ -1,8 +1,5 @@
 #include "fdf.h"
 
-
-
-
 void	put_slope_less_than_one(int dx, int dy, int index, t_points points, mlx_image_t *img)
 {
 	int	p;
