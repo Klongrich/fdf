@@ -38,8 +38,64 @@ int	list_len(char **list)
 	return (i);
 }
 
+//Make sure they are numbers.
+//Split by spaces.
+//Even number of values in rows && columns (has to make a rectangle or square) 
 
 
+
+//(x, y)
+//x = WIDTH / ROW_SIZE
+//y = HEIGHT / COLUMN_SIZE
+//
+
+
+void	set_points(char **str, int y, t_points *points)
+{
+	int	i;
+	int index;
+
+	i = 0;
+	index = y * 19;
+	printf("index: %d\n", index);
+	while (str[i]) 
+	{
+		printf("index: %d - i: %d - y: %d\n", index, i, y);
+		points->x[index + i] = i;
+		points->y[index + i] = y;
+		points->z[index] = ft_atoi(str[i]);
+		i++;
+	}
+	printf("Done\n");
+}
+
+void	print_points(t_points points) {
+	int i;
+
+	i = 0;
+	printf("print points\n");
+	while (i < 190)
+	{
+		printf("i: %d - (%d, %d, %d)", i, points.x[i], points.y[i], points.z[i]);
+		printf("\n");
+		i++;
+	}
+
+}
+
+void	init_points(t_points *points)
+{
+	int i;
+
+	i = 0;
+	while (i < 190) 
+	{
+		points->x[i] = 0;
+		points->y[i] = 0;
+		points->z[i] = 0;
+		i++;	
+	}
+}
 
 int	main(int argc, char **argv)
 {
@@ -48,10 +104,12 @@ int	main(int argc, char **argv)
 	int	fd;
 	int	i;
 	int	y;
+	int row_len;
 	t_points	points;
 
 	i = 0;
 	y = 0;
+	row_len = 0;
 	if (argc > 2)
 		printf("too many args\n");
 	if (argc == 1) {
@@ -64,17 +122,25 @@ int	main(int argc, char **argv)
 			printf("error opening file\n");
 			free(str);
 		} else {
+			init_points(&points);
 			while(get_next_line(fd, &str)) {
 				temp = ft_strsplit(str, ' ');
-				printf("%s\n", str);
-				printf("y-index:%d\n", y);
-				printf("str_len: %d\n", list_len(temp));
+				if (y == 0)
+					row_len = list_len(temp);
+				if (row_len != list_len(temp))
+				{
+					printf("rows malformed\n");
+					free(str);
+					return (0);
+		
+				}
+				set_points(temp,  y, &points);
 				y++;
 			}
+			print_points(points);
 			free(str);
 		}
 
-	
 	
 	mlx_t *mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
 
@@ -97,6 +163,8 @@ int	main(int argc, char **argv)
 		i++;
 	}
 
+
+	/*
 	points.x[0] = 10;
 	points.y[0] = 15;
 	points.z[0] = 0;
@@ -115,8 +183,10 @@ int	main(int argc, char **argv)
 
 	put_line(points, img, 0);	
 	put_line(points, img, 1);
+		*/
 	mlx_loop(mlx);
 	}
 	return (0);
 }
+
 
