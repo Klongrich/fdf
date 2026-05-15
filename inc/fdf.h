@@ -13,14 +13,12 @@
 #define BUFFER_SIZE 1000
 
 typedef struct points {
-	int	x[200];
-	int	y[200];
-	int	z[200];
+	int	x[500];
+	int	y[500];
+	int	z[500];
 }		t_points;
 
-void    put_line(t_points points, mlx_image_t *img, int i);
-
-
+void    put_line(t_points points, mlx_image_t *img, int x1, int y1, int x2, int y2);
 
 /*
 	How to draw lines. 
