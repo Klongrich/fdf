@@ -169,9 +169,12 @@ int	main(int argc, char **argv)
 	}
 
 	i = 0;
+	int zoom;
+
+	zoom = 100;
 	while (i < 190)
 	{
-		apply_zoom(&points, i, WIDTH / row_len, HEIGHT / col_len); 
+		apply_zoom(&points, i, 100, 100); 
 		i++;
 	}
 	printf("\n\n--- zoom applied ---\n\n");
