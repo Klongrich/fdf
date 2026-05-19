@@ -5,14 +5,15 @@ void	isometric(t_points *points, int i)
 	int	tmp;
 
 	tmp = points->x[i];
-	points->x[i] = (points->x[i] - points->y[i]) * cos(0.523599);
-	points->y[i] = (points->x[i] + points->y[i]) * sin(0.523599) - points->z[i];
+	points->x[i] = (tmp - points->y[i]) * cos(0.523599);
+	points->y[i] = (tmp + points->y[i]) * sin(0.523599) - points->z[i];
 }
 
 void	apply_zoom(t_points *points, int i, int x_zoom, int y_zoom)
 {
 	points->x[i] = points->x[i] * x_zoom;
 	points->y[i] = points->y[i] * y_zoom;
+	points->z[i] = points->z[i] * y_zoom;
 }
 
 void	center_point(t_points *points, int i)
@@ -173,13 +174,19 @@ int	main(int argc, char **argv)
 		apply_zoom(&points, i, WIDTH / row_len, HEIGHT / col_len); 
 		i++;
 	}
+	printf("\n\n--- zoom applied ---\n\n");
+	print_points(points);
 	
 	i = 0;
 	while (i < 190)
 	{
 		isometric(&points, i);
+		//center_point(&points,i);
 		i++;
 	}
+
+	printf("\n\n--- Isometric Applied ---\n\n");
+	print_points(points);
 
 	/*
 		Horizontal
