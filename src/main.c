@@ -200,7 +200,7 @@ int	main(int argc, char **argv)
 	i = 0;
 	int zoom;
 
-	zoom = 110;
+	zoom = 30;
 	while (i < 190)
 	{
 		apply_zoom(&points, i, zoom, zoom); 
