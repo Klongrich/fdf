@@ -84,6 +84,35 @@ void	init_points(t_points *points)
 	}
 }
 
+void put_line_no_slope(t_points points, mlx_image_t *img, int x1, int y1, int x2, int y2) {
+	int i;
+	int x_total;
+	int y_total;
+	int x;
+	int y;
+
+	i = 0;
+	x_total = x1 - x2;
+	y_total = y1 - y2;
+	x = x1;
+	y = y1;
+	//(0,0) -> (5, 0;
+	//Draw Horziontal
+	if (y_total == 0) 
+	{
+		i = 0;
+		x_total = points.x[x1] - points.x[x2]; 
+		while (i < abs(x_total)) 
+		{
+			mlx_put_pixel(img, points.x[x1], points.y[y1], 0xFF0000FF);
+			i++;
+			x1++;
+		}
+	}
+
+}
+
+
 int	main(int argc, char **argv)
 {
 	char	*str;
@@ -228,13 +257,12 @@ int	main(int argc, char **argv)
 	y = 0;
 	x = 0;
 	i = 0;
-
 	while (x < row_len)
 	{
 		y = 0;
 		while (y < col_len)
 		{
-			put_line(points, img, x, y, x, y + 1);
+			put_line_no_slope(points, img, x, y, x, y + 1);
 			y++;
 		}
 		x++;
@@ -247,17 +275,16 @@ int	main(int argc, char **argv)
 		x = 0;
 		while (x < row_len)
 		{
-			put_line(points, img, x, y, x + 1, y);
+			put_line_no_slope(points, img, x, y, x + 1, y);
 			x++;
 		}
 		y++;
 	}
 
-
 	//Horzinal
-	put_line(points, img, 0, 0, 1, 0);
-	put_line(points, img, 1, 0, 2, 0);
-	put_line(points, img, 2, 0, 3, 0);
+	//put_line(points, img, 0, 0, 1, 0);
+	//put_line(points, img, 1, 0, 2, 0);
+	//put_line(points, img, 2, 0, 3, 0);
 	mlx_loop(mlx);
 	}
 	return (0);
