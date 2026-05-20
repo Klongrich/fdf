@@ -251,12 +251,48 @@ int	main(int argc, char **argv)
 	*/
 //	 put_line(t_points points, mlx_image_t *img, int x1, int y1, int x2, int y2);
 	
-	int	x;
-	int y;
+	int	x1;
+	int x2;
+	int y1;
+	int y2;
+	int x_dist;
+	int	y_dist;
+	int j;
 
-	y = 0;
-	x = 0;
+	y1 = 0;
+	y2 = 0;
+	x1 = 0;
+	x2 = 0;
 	i = 0;
+	j = 0;
+	x_dist = 0;
+	y_dist = 0;
+	while (i < 190) {
+		x1 = points.x[i];
+		x2 = points.x[i + 1];
+
+		y1 = points.y[i];
+		y2 = points.y[i + 18];
+
+		x_dist = x1 - x2;
+		j = 0;
+		while (j < abs(x_dist)) {
+			mlx_put_pixel(img, x1, y1, 0xFF0000FF);
+			j++;
+			x1++;
+		}
+	
+		y_dist = y1 - y2;
+		j = 0;
+		while (j < abs(y_dist)) {
+			mlx_put_pixel(img, x1, y1, 0xFF000FF);
+			j++;
+			y1++;
+		}
+		i++;	
+	}
+
+	/*
 	while (x < row_len)
 	{
 		y = 0;
@@ -280,6 +316,7 @@ int	main(int argc, char **argv)
 		}
 		y++;
 	}
+	*/
 
 	//Horzinal
 	//put_line(points, img, 0, 0, 1, 0);
