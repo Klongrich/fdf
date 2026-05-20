@@ -171,10 +171,10 @@ int	main(int argc, char **argv)
 	i = 0;
 	int zoom;
 
-	zoom = 100;
+	zoom = 110;
 	while (i < 190)
 	{
-		apply_zoom(&points, i, 100, 100); 
+		apply_zoom(&points, i, zoom, zoom); 
 		i++;
 	}
 	printf("\n\n--- zoom applied ---\n\n");
@@ -183,7 +183,7 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (i < 190)
 	{
-		isometric(&points, i);
+		//isometric(&points, i);
 		//center_point(&points,i);
 		i++;
 	}
